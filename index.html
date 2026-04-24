@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VulcanFab Industries – Precision Manufacturing</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Lucide icons CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+
+  <!-- ══ NAVBAR ══════════════════════════════════════════════ -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <div class="brand-icon">⚙</div>
+      VulcanFab
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html" class="active">Home</a>
+      <a href="products.html">Products</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="contact.html" class="btn btn-primary btn-sm">Get a Quote</a>
+      <button class="nav-toggle" id="navToggle">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- ══ HERO ════════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid-pattern"></div>
+    <div class="container">
+      <div class="flex gap-4" style="align-items:center; flex-wrap:wrap;">
+
+        <!-- Left column -->
+        <div class="hero-content" style="flex:1; min-width:300px;">
+          <div class="hero-eyebrow">
+            <span>●</span> Est. 2008 · Ludhiana, Punjab
+          </div>
+          <h1>Forging the<br><span>Future of</span><br>Industry</h1>
+          <p class="subtitle">
+            Precision-engineered components for automotive, construction,
+            and heavy machinery sectors. ISO 9001 certified with 15+ years
+            of manufacturing excellence.
+          </p>
+          <div class="hero-actions">
+            <a href="products.html" class="btn btn-primary btn-lg">View Products</a>
+            <a href="contact.html" class="btn btn-outline btn-lg">Request Quote</a>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat-item">
+              <div class="num">850+</div>
+              <div class="desc">Clients Served</div>
+            </div>
+            <div class="hero-stat-item">
+              <div class="num">12K+</div>
+              <div class="desc">Orders Fulfilled</div>
+            </div>
+            <div class="hero-stat-item">
+              <div class="num">ISO</div>
+              <div class="desc">9001 Certified</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column — live-stats visual -->
+        <div class="hero-image-col" style="flex:1; min-width:280px;">
+          <div class="hero-visual">
+            <div class="hero-visual-header">
+              <div class="dot" style="background:#ef4444"></div>
+              <div class="dot" style="background:#f59e0b"></div>
+              <div class="dot" style="background:#10b981"></div>
+              <span style="margin-left:8px; font-family:var(--font-mono); font-size:0.72rem; color:var(--text-muted)">factory_dashboard.live</span>
+            </div>
+            <div class="hero-visual-body">
+              <div class="label" style="margin-bottom:14px;">Live Production Status</div>
+              <div class="factory-stat-row"><span class="s-label">Active Orders</span><span class="s-val" id="liveOrders">—</span></div>
+              <div class="factory-stat-row"><span class="s-label">Products Available</span><span class="s-val" id="liveProducts">—</span></div>
+              <div class="factory-stat-row"><span class="s-label">Active Clients</span><span class="s-val" id="liveClients">—</span></div>
+              <div class="factory-stat-row"><span class="s-label">Team Members</span><span class="s-val" id="liveEmployees">—</span></div>
+              <div class="factory-stat-row"><span class="s-label">System Status</span><span class="s-val" style="color:var(--green)">● ONLINE</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FEATURES ════════════════════════════════════════════ -->
+  <section style="background:var(--bg-secondary); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div class="section-header">
+        <div class="label">Why Choose Us</div>
+        <h2>Built for Industry. Built to Last.</h2>
+        <p>From raw material to finished product, our integrated processes deliver quality at every stage.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>Precision CNC Machining</h3>
+          <p>Tolerances down to ±0.01mm using state-of-the-art 5-axis CNC centres and CMM verification.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3>Quality Assurance</h3>
+          <p>Every batch undergoes rigorous QC inspection. ISO 9001:2015 certified processes throughout.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Fast Turnaround</h3>
+          <p>Streamlined production scheduling ensures on-time delivery, even for custom bulk orders.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔩</div>
+          <h3>Custom Manufacturing</h3>
+          <p>Send us your drawings or samples. We engineer components to your exact specifications.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📦</div>
+          <h3>Bulk Supply Ready</h3>
+          <p>Warehouse capacity of 50,000 sq ft with PAN India logistics and export capability.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💬</div>
+          <h3>Dedicated Support</h3>
+          <p>Assigned account managers, real-time order tracking, and 24/7 technical support.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PRODUCTS PREVIEW ════════════════════════════════════ -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <div class="label">Our Catalog</div>
+        <h2>Featured Products</h2>
+        <p>A curated sample from our 500+ product catalogue. Contact us for the full range.</p>
+      </div>
+      <div class="products-grid" id="featuredProducts">
+        <!-- Injected by main.js -->
+        <div class="loading-state"><div class="spinner"></div><p style="margin-top:12px">Loading products…</p></div>
+      </div>
+      <div style="text-align:center; margin-top:36px;">
+        <a href="products.html" class="btn btn-outline btn-lg">View All Products →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PROCESS ══════════════════════════════════════════════ -->
+  <section style="background:var(--bg-secondary); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div class="section-header">
+        <div class="label">How It Works</div>
+        <h2>From Inquiry to Delivery</h2>
+      </div>
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="step-num">1</div>
+          <h4>Submit Inquiry</h4>
+          <p>Share your requirements via our contact form or call us directly.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">2</div>
+          <h4>Get a Quote</h4>
+          <p>Our team reviews specs and sends a detailed, competitive quotation.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">3</div>
+          <h4>Production</h4>
+          <p>Order confirmed — your components enter our precision production line.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">4</div>
+          <h4>QC & Dispatch</h4>
+          <p>Final inspection done. Packed and dispatched with tracking details.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CTA ══════════════════════════════════════════════════ -->
+  <section>
+    <div class="container">
+      <div class="cta-banner">
+        <div class="label" style="margin-bottom:12px;">Ready to Start?</div>
+        <h2>Let's Build Something <span class="text-accent">Together</span></h2>
+        <p>Talk to our engineering team today and get a free consultation on your manufacturing needs.</p>
+        <a href="contact.html" class="btn btn-primary btn-lg">Contact Us Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ═══════════════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-brand" style="margin-bottom:12px;">
+            <div class="brand-icon">⚙</div> VulcanFab
+          </div>
+          <p>Precision manufacturing partner for industrial businesses across India and beyond.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="index.html">About Us</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Services</h5>
+          <ul>
+            <li><a href="#">CNC Machining</a></li>
+            <li><a href="#">Sheet Metal</a></li>
+            <li><a href="#">Fabrication</a></li>
+            <li><a href="#">Quality Testing</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <ul>
+            <li><a href="#">Focal Point, Ludhiana</a></li>
+            <li><a href="mailto:info@vulcanfab.in">info@vulcanfab.in</a></li>
+            <li><a href="tel:+911612500000">+91 161 250 0000</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2024 VulcanFab Industries. All rights reserved.</span>
+        <span>Made in India 🇮🇳</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">
+    <span class="toast-icon" id="toastIcon">✓</span>
+    <span class="toast-msg" id="toastMsg"></span>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

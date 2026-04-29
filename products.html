@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -170,4 +171,177 @@
   </script>
   
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products – VulcanFab Industries</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <div class="brand-icon">⚙</div>
+      VulcanFab
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="products.html" class="active">Products</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="contact.html" class="btn btn-primary btn-sm">Get a Quote</a>
+      <button class="nav-toggle" id="navToggle">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="container">
+      <div class="label">Our Catalog</div>
+      <h1>Products & Components</h1>
+      <p>Industrial-grade precision parts for every application. Minimum order quantities apply.</p>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <section>
+    <div class="container">
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" id="searchInput" placeholder="Search products…" />
+        </div>
+        <select class="form-control" id="categoryFilter" style="max-width:200px;">
+          <option value="">All Categories</option>
+        </select>
+        <span class="text-muted mono" id="productCount" style="font-size:0.82rem; white-space:nowrap;"></span>
+      </div>
+
+      <!-- Product Grid -->
+      <div class="products-grid" id="productsGrid">
+        <div class="loading-state" style="grid-column:1/-1;">
+          <div class="spinner"></div>
+          <p style="margin-top:12px">Loading catalog…</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="padding-top:0;">
+    <div class="container">
+      <div class="cta-banner">
+        <div class="label" style="margin-bottom:12px;">Need Something Custom?</div>
+        <h2>Can't Find What You Need?</h2>
+        <p>We manufacture custom components to your drawings and specifications. Send us your requirements.</p>
+        <a href="contact.html" class="btn btn-primary btn-lg">Request Custom Order</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-brand" style="margin-bottom:12px;"><div class="brand-icon">⚙</div> VulcanFab</div>
+          <p>Precision manufacturing partner for industrial businesses across India and beyond.</p>
+        </div>
+        <div class="footer-col"><h5>Company</h5><ul><li><a href="index.html">About Us</a></li><li><a href="products.html">Products</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+        <div class="footer-col"><h5>Services</h5><ul><li><a href="#">CNC Machining</a></li><li><a href="#">Sheet Metal</a></li><li><a href="#">Fabrication</a></li></ul></div>
+        <div class="footer-col"><h5>Contact</h5><ul><li><a href="#">Focal Point, Ludhiana</a></li><li><a href="mailto:info@vulcanfab.in">info@vulcanfab.in</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><span>© 2024 VulcanFab Industries.</span><span>Made in India 🇮🇳</span></div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">
+    <span class="toast-icon" id="toastIcon">✓</span>
+    <span class="toast-msg" id="toastMsg"></span>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Products page logic (extends main.js)
+    document.addEventListener('DOMContentLoaded', async () => {
+      const grid       = document.getElementById('productsGrid');
+      const searchInput= document.getElementById('searchInput');
+      const catFilter  = document.getElementById('categoryFilter');
+      const countEl    = document.getElementById('productCount');
+
+      let allProducts  = [];
+
+      // Fetch all products from API
+      try {
+        const res = await fetch(`${API_BASE}/products?active=true`);
+        allProducts = await res.json();
+
+        // Build category options
+        const cats = [...new Set(allProducts.map(p => p.category).filter(Boolean))];
+        cats.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c; opt.textContent = c;
+          catFilter.appendChild(opt);
+        });
+
+        renderProducts(allProducts);
+      } catch (e) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-icon">⚠️</div><p>Could not load products. Make sure the backend server is running.</p></div>`;
+      }
+
+      function renderProducts(list) {
+        countEl.textContent = `${list.length} product${list.length !== 1 ? 's' : ''}`;
+        if (!list.length) {
+          grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-icon">📦</div><p>No products match your search.</p></div>`;
+          return;
+        }
+        const icons = { 'Fasteners':'🔩','Mechanical':'⚙️','Sealing':'🔘','Metal Profiles':'🏗️','Hydraulics':'💧','Piping':'🔧' };
+        grid.innerHTML = list.map(p => `
+          <div class="product-card">
+            <div class="product-img">${icons[p.category] || '🏭'}</div>
+            <div class="product-body">
+              <div class="product-category">${p.category || 'General'}</div>
+              <div class="product-name">${p.name}</div>
+              <p class="product-desc">${p.description || 'High-quality industrial component.'}</p>
+              <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
+                <span class="badge badge-gray">SKU: ${p.sku}</span>
+                <span class="badge ${p.stock > 0 ? 'badge-green' : 'badge-red'}">${p.stock > 0 ? 'In Stock' : 'Out of Stock'}</span>
+                ${p.minOrderQty > 1 ? `<span class="badge badge-blue">MOQ: ${p.minOrderQty}</span>` : ''}
+              </div>
+              <div class="product-footer">
+                <div>
+                  <div class="product-price">₹${p.price.toLocaleString('en-IN')}</div>
+                  <div class="product-unit">per ${p.unit}</div>
+                </div>
+                <a href="contact.html?product=${encodeURIComponent(p.name)}" class="btn btn-primary btn-sm">Enquire</a>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Live filter
+      function filter() {
+        const q   = searchInput.value.toLowerCase();
+        const cat = catFilter.value;
+        const filtered = allProducts.filter(p =>
+          (!q   || p.name.toLowerCase().includes(q) || (p.description||'').toLowerCase().includes(q)) &&
+          (!cat || p.category === cat)
+        );
+        renderProducts(filtered);
+      }
+      searchInput.addEventListener('input', filter);
+      catFilter.addEventListener('change', filter);
+    });
+  </script>
+</body>
+>>>>>>> 6a8d4c3e0cbe1caacbdf846b339484a877d377f2
 </html>

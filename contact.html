@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -231,4 +232,233 @@
     });
   </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us – VulcanFab Industries</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <div class="brand-icon">⚙</div>
+      VulcanFab
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="contact.html" class="active">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="contact.html" class="btn btn-primary btn-sm">Get a Quote</a>
+      <button class="nav-toggle" id="navToggle">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="container">
+      <div class="label">Get In Touch</div>
+      <h1>Contact & Inquiries</h1>
+      <p>Submit your requirements and our team will respond within 24 hours.</p>
+    </div>
+  </div>
+
+  <!-- CONTACT SECTION -->
+  <section>
+    <div class="container">
+      <div class="contact-grid">
+
+        <!-- Info Panel -->
+        <div>
+          <h3 style="margin-bottom:24px;">Talk to Our Team</h3>
+          <div class="contact-info-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <h4>Factory Address</h4>
+              <p>Plot 42, Focal Point Industrial Area,<br>Ludhiana, Punjab – 141 010</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon">📞</div>
+            <div>
+              <h4>Phone</h4>
+              <p>+91 161 250 0000<br>Mon – Sat, 9 AM – 6 PM IST</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon">✉️</div>
+            <div>
+              <h4>Email</h4>
+              <p>info@vulcanfab.in<br>sales@vulcanfab.in</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon">🕐</div>
+            <div>
+              <h4>Working Hours</h4>
+              <p>Monday – Saturday: 8 AM – 7 PM<br>Sunday: Closed</p>
+            </div>
+          </div>
+
+          <!-- Map placeholder -->
+          <div style="margin-top:24px; background:var(--bg-elevated); border:1px solid var(--border); border-radius:var(--radius-lg); padding:40px; text-align:center; color:var(--text-muted);">
+            <div style="font-size:2rem; margin-bottom:8px;">🗺️</div>
+            <p style="font-size:0.88rem;">Focal Point, Ludhiana – Punjab, India</p>
+          </div>
+        </div>
+
+        <!-- Form Panel -->
+        <div class="card">
+          <h3 style="margin-bottom:6px;">Send an Inquiry</h3>
+          <p style="color:var(--text-secondary); font-size:0.88rem; margin-bottom:24px;">
+            All inquiries are saved to our system. We'll contact you with a detailed quote.
+          </p>
+
+          <form id="contactForm" novalidate>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+              <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" class="form-control" placeholder="Rajesh Kumar" required />
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" class="form-control" placeholder="you@company.com" required />
+              </div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" class="form-control" placeholder="+91 98765 43210" />
+              </div>
+              <div class="form-group">
+                <label for="company">Company Name</label>
+                <input type="text" id="company" class="form-control" placeholder="Acme Industries" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="subject">Product / Subject *</label>
+              <input type="text" id="subject" class="form-control" placeholder="e.g. Bulk order for M12 bolts" required />
+            </div>
+            <div class="form-group">
+              <label for="message">Message / Requirements *</label>
+              <textarea id="message" class="form-control" rows="5"
+                placeholder="Describe your requirement: quantity, specifications, delivery location, timeline…" required></textarea>
+            </div>
+
+            <!-- Validation error display -->
+            <div id="formError" style="color:var(--red); font-size:0.85rem; margin-bottom:12px; display:none;"></div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%;" id="submitBtn">
+              <span id="submitText">Send Inquiry</span>
+              <span id="submitSpinner" class="spinner" style="display:none;"></span>
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-brand" style="margin-bottom:12px;"><div class="brand-icon">⚙</div> VulcanFab</div>
+          <p>Precision manufacturing partner for industrial businesses across India and beyond.</p>
+        </div>
+        <div class="footer-col"><h5>Company</h5><ul><li><a href="index.html">About Us</a></li><li><a href="products.html">Products</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+        <div class="footer-col"><h5>Services</h5><ul><li><a href="#">CNC Machining</a></li><li><a href="#">Sheet Metal</a></li><li><a href="#">Fabrication</a></li></ul></div>
+        <div class="footer-col"><h5>Contact</h5><ul><li><a href="#">Focal Point, Ludhiana</a></li><li><a href="mailto:info@vulcanfab.in">info@vulcanfab.in</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><span>© 2024 VulcanFab Industries.</span><span>Made in India 🇮🇳</span></div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">
+    <span class="toast-icon" id="toastIcon">✓</span>
+    <span class="toast-msg" id="toastMsg"></span>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Pre-fill product if coming from products page
+      const params  = new URLSearchParams(window.location.search);
+      const product = params.get('product');
+      if (product) {
+        document.getElementById('subject').value = `Inquiry: ${product}`;
+      }
+
+      const form         = document.getElementById('contactForm');
+      const submitBtn    = document.getElementById('submitBtn');
+      const submitText   = document.getElementById('submitText');
+      const submitSpinner= document.getElementById('submitSpinner');
+      const formError    = document.getElementById('formError');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        formError.style.display = 'none';
+
+        // Validate
+        const name    = document.getElementById('name').value.trim();
+        const email   = document.getElementById('email').value.trim();
+        const message = document.getElementById('message').value.trim();
+
+        if (!name || !email || !message) {
+          formError.textContent = 'Please fill in all required fields (*)';
+          formError.style.display = 'block';
+          return;
+        }
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+          formError.textContent = 'Please enter a valid email address.';
+          formError.style.display = 'block';
+          return;
+        }
+
+        // Submit
+        submitBtn.disabled = true;
+        submitText.textContent = 'Sending…';
+        submitSpinner.style.display = 'inline-block';
+
+        try {
+          const res = await fetch(`${API_BASE}/clients`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name,
+              email,
+              phone:   document.getElementById('phone').value.trim(),
+              company: document.getElementById('company').value.trim(),
+              message: `[${document.getElementById('subject').value}] ${message}`
+            })
+          });
+
+          const data = await res.json();
+          if (res.ok) {
+            showToast('✅ Inquiry sent! We\'ll get back to you within 24 hours.', 'success');
+            form.reset();
+          } else {
+            formError.textContent = data.message || 'Submission failed. Please try again.';
+            formError.style.display = 'block';
+          }
+        } catch {
+          formError.textContent = 'Network error. Please check your connection.';
+          formError.style.display = 'block';
+        } finally {
+          submitBtn.disabled = false;
+          submitText.textContent = 'Send Inquiry';
+          submitSpinner.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+>>>>>>> 6a8d4c3e0cbe1caacbdf846b339484a877d377f2
 </html>

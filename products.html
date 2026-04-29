@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products – Kushwaha and Sons</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <div class="brand-icon"><i class="fa-solid fa-gear"></i></div>
+      Kushwaha and Sons
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="products.html" class="active">Products</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="https://wa.me/916204499529" target="_blank" class="btn btn-primary btn-sm">
+        WhatsApp Us
+      </a>
+      <button class="nav-toggle" id="navToggle"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="container">
+      <div class="label">Our Catalog</div>
+      <h1>Our Products</h1>
+      <p>We provide high-quality bricks and paver blocks for all types of construction needs.</p>
+      <p class="price-note">*Prices may vary depending on quantity and market conditions. Contact us on WhatsApp for latest rates.</p>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <section>
+    <div class="container">      
+
+      <!-- Product Grid -->
+      <div class="products-grid" id="productsGrid">
+        <div class="loading-state"><div class="spinner"></div><p style="margin-top:12px">Loading products…</p></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="padding-top:0;">
+    <div class="container">
+      <div class="cta-banner">
+        <div class="label" style="margin-bottom:12px;">Need Something Custom?</div>
+        <h2>Need Bulk Order?</h2>
+        <p>Contact us for bulk orders and best pricing based on your requirement.</p>
+        <a href="https://wa.me/916204499529" target="_blank" class="btn btn-primary btn-lg">
+          Contact on WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-brand" style="margin-bottom:12px;"><div class="brand-icon"><i class="fa-solid fa-gear"></i></div> Kushwaha and Sons</div>
+          <p>Reliable manufacturer of bricks, paver blocks, and construction materials.</p>
+        </div>
+        <div class="footer-col"><h5>Company</h5><ul><li><a href="index.html">About Us</a></li><li><a href="products.html">Products</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+        <div class="footer-col"><h5>Services</h5><ul><li><a href="#">CNC Machining</a></li><li><a href="#">Sheet Metal</a></li><li><a href="#">Fabrication</a></li></ul></div>
+        <div class="footer-col"><h5>Contact</h5><ul><li><a href="#">Banauli, Darbhanga, Bihar - 847428</a></li><li><a href="mailto:keshavsinghaniya98@gmail.com">keshavsinghaniya98@gmail.com</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><span>© 2024 Kushwaha and Sons.</span><span>Made in India <i class="fa-solid fa-flag" style="color:#FF9933; margin-left:4px;"></i></span></div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">
+    <span class="toast-icon" id="toastIcon"><i class="fa-solid fa-circle-check"></i></span>
+    <span class="toast-msg" id="toastMsg"></span>
+  </div>
+
+  <!-- Floating Buttons -->
+<a href="tel:+916204499529" class="floating-btn call-btn">
+  <i class="fa-solid fa-phone"></i>
+</a>
+
+<a href="https://wa.me/916204499529" target="_blank" class="floating-btn whatsapp-btn">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+  <script src="js/main.js"></script>
+  <script>
+    // Products page logic (extends main.js)
+    document.addEventListener('DOMContentLoaded', async () => {
+      const grid       = document.getElementById('productsGrid');
+      const searchInput= document.getElementById('searchInput');
+      const catFilter  = document.getElementById('categoryFilter');
+      const countEl    = document.getElementById('productCount');
+
+      let allProducts  = [];
+
+      // Fetch all products from API
+      try {
+        const res = await fetch(`${API_BASE}/products?active=true`);
+        allProducts = await res.json();
+
+        // Build category options
+        const cats = [...new Set(allProducts.map(p => p.category).filter(Boolean))];
+        cats.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c; opt.textContent = c;
+          catFilter.appendChild(opt);
+        });
+
+        renderProducts(allProducts);
+      } catch (e) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><p>Could not load products. Make sure the backend server is running.</p></div>`;
+      }
+
+      function renderProducts(list) {
+        countEl.textContent = `${list.length} product${list.length !== 1 ? 's' : ''}`;
+        if (!list.length) {
+          grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-icon"><i class="fa-solid fa-box"></i></div><p>No products match your search.</p></div>`;
+          return;
+        }
+        const icons = { 'Fasteners':'<i class="fa-solid fa-bolt"></i>','Mechanical':'<i class="fa-solid fa-gear"></i>','Sealing':'<i class="fa-solid fa-circle"></i>','Metal Profiles':'<i class="fa-solid fa-building"></i>','Hydraulics':'<i class="fa-solid fa-droplet"></i>','Piping':'<i class="fa-solid fa-wrench"></i>' };
+        grid.innerHTML = list.map(p => `
+          <div class="product-card">
+            <div class="product-img">${icons[p.category] || '<i class="fa-solid fa-industry"></i>'}</div>
+            <div class="product-body">
+              <div class="product-category">${p.category || 'General'}</div>
+              <div class="product-name">${p.name}</div>
+              <p class="product-desc">${p.description || 'High-quality industrial component.'}</p>
+              <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
+                <span class="badge badge-gray">SKU: ${p.sku}</span>
+                <span class="badge ${p.stock > 0 ? 'badge-green' : 'badge-red'}">${p.stock > 0 ? 'In Stock' : 'Out of Stock'}</span>
+                ${p.minOrderQty > 1 ? `<span class="badge badge-blue">MOQ: ${p.minOrderQty}</span>` : ''}
+              </div>
+              <div class="product-footer">
+                <div>
+                  <div class="product-price">₹${p.price.toLocaleString('en-IN')}</div>
+                  <div class="product-unit">per ${p.unit}</div>
+                </div>
+                <a href="contact.html?product=${encodeURIComponent(p.name)}" class="btn btn-primary btn-sm">Enquire</a>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Live filter
+      function filter() {
+        const q   = searchInput.value.toLowerCase();
+        const cat = catFilter.value;
+        const filtered = allProducts.filter(p =>
+          (!q   || p.name.toLowerCase().includes(q) || (p.description||'').toLowerCase().includes(q)) &&
+          (!cat || p.category === cat)
+        );
+        renderProducts(filtered);
+      }
+      searchInput.addEventListener('input', filter);
+      catFilter.addEventListener('change', filter);
+    });
+  </script>
+  
+</body>
+</html>

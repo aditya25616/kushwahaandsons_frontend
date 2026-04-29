@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kushwaha and Sons – Bricks & Paver Block Manufacturer</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- ══ NAVBAR ══════════════════════════════════════════════ -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <div class="brand-icon"><i class="fa-solid fa-industry"></i></div>
+      Kushwaha and Sons
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html" class="active">Home</a>
+      <a href="products.html">Products</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="cart.html" class="btn btn-primary btn-sm cart-btn">
+        <i class="fa-solid fa-shopping-cart"></i>
+        <span class="cart-badge" id="cartCount">0</span>
+      </a>
+      <a href="https://wa.me/916204499529" target="_blank" class="btn btn-primary btn-sm">
+          WhatsApp Us
+      </a>
+      <button class="nav-toggle" id="navToggle"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </nav>
+
+  <!-- ══ HERO ════════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid-pattern"></div>
+    <div class="container">
+      <div class="flex gap-4" style="align-items:center; flex-wrap:wrap;">
+
+        <!-- Left column -->
+        <div class="hero-content" style="flex:1; min-width:300px;">
+          <div class="hero-eyebrow">
+            <span><i class="fa-solid fa-circle" style="font-size:0.4rem;"></i></span> Est. 2024 · Banauli, Bihar
+          </div>
+
+          <h1>Building Strength<br><span>With Quality</span><br>Materials</h1>
+
+          <p class="subtitle">
+          Kushwaha and Sons is a reliable manufacturing unit specializing in bricks, paver blocks, and construction materials. 
+          We deliver durable, cost-effective, and high-quality solutions for both rural and urban construction needs.
+          </p>
+          <div class="hero-actions">
+            <a href="products.html" class="btn btn-primary btn-lg">View Products</a>
+            <a href="contact.html" class="btn btn-outline btn-lg">Request Quote</a>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat-item">
+              <div class="num">250+</div>
+              <div class="desc">Customers Served</div>
+            </div>
+            <div class="hero-stat-item">
+              <div class="num">500</div>
+              <div class="desc">Products Delivered</div>
+            </div>
+            <div class="hero-stat-item">
+              <div class="num">Trusted</div>
+              <div class="desc">Quality Assured</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column — live-stats visual -->
+        <div class="hero-image-col" style="flex:1; min-width:280px;">
+          <div class="hero-visual">
+            <div class="hero-visual-header">
+              <div class="dot" style="background:#ef4444"></div>
+              <div class="dot" style="background:#f59e0b"></div>
+              <div class="dot" style="background:#10b981"></div>
+              <span style="margin-left:8px; font-family:var(--font-mono); font-size:0.72rem; color:var(--text-muted)">factory_dashboard.live</span>
+            </div>
+            <div class="hero-visual-body">
+              <div class="label" style="margin-bottom:14px;">Live Production Status</div>
+              <div class="factory-stat-row"><span class="s-label">Active Orders</span><span class="s-val" id="liveOrders">—</span></div>
+              <div class="factory-stat-row"><span class="s-label">Products Available</span><span class="s-val" id="liveProducts">—</span></div>
+              <div class="factory-stat-row"><span class="s-label">Active Clients</span><span class="s-val" id="liveClients">—</span></div>
+              <div class="factory-stat-row"><span class="s-label">Team Members</span><span class="s-val" id="liveEmployees">—</span></div>
+              <div class="factory-stat-row"><span class="s-label">System Status</span><span class="s-val" style="color:var(--green)"><i class="fa-solid fa-circle" style="font-size:0.5rem; margin-right:6px;"></i>ONLINE</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FEATURES ════════════════════════════════════════════ -->
+  <section style="background:var(--bg-secondary); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div class="section-header">
+        <div class="label">Why Choose Us</div>
+        <h2>Strong Foundations Start With Us</h2>
+        <p>We manufacture high-quality bricks and paver blocks using reliable materials and consistent processes to ensure durability and strength.</p>      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-cube"></i></div>
+          <h3>High-Quality Bricks</h3>
+          <p>Durable and strong bricks suitable for all types of construction work.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-layer-group"></i></div>
+          <h3>Paver Blocks</h3>
+          <p>Interlocking paver blocks available in multiple designs and sizes.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-industry"></i></div>
+          <h3>Multiple Designs</h3>
+          <p>Various shapes, sizes, and patterns available for different construction needs.</p>       
+         </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-tools"></i></div>
+          <h3>Affordable Pricing</h3>
+          <p>Competitive pricing based on current market rates with bulk order benefits.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-truck"></i></div>
+          <h3>Bulk Supply</h3>
+          <p>Capable of fulfilling large-scale construction orders efficiently.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-phone"></i></div>
+          <h3>Reliable Service</h3>
+          <p>On-time delivery and consistent product quality for every order.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PRODUCTS PREVIEW ════════════════════════════════════ -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <div class="label">Our Catalog</div>
+        <h2>Featured Products</h2>
+        <p>A curated sample from our 500+ product catalogue. Contact us for the full range.</p>
+      </div>
+      <div class="products-grid" id="featuredProducts">
+        <!-- Injected by main.js -->
+        <div class="loading-state"><div class="spinner"></div><p style="margin-top:12px">Loading products…</p></div>
+      </div>
+      <div style="text-align:center; margin-top:36px;">
+        <a href="products.html" class="btn btn-outline btn-lg">View All Products →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PROCESS ══════════════════════════════════════════════ -->
+  <section style="background:var(--bg-secondary); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div class="section-header">
+        <div class="label">How It Works</div>
+        <h2>From Inquiry to Delivery</h2>
+      </div>
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="step-num">1</div>
+          <h4>Submit Inquiry</h4>
+          <p>Contact us via call, WhatsApp, or visit directly for your requirements.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">2</div>
+          <h4>Get Pricing</h4>
+            <p>We provide pricing based on current market rates and your requirement.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">3</div>
+          <h4>Material Preparation</h4>
+          <p>Your order is prepared using required materials and proper manufacturing process.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">4</div>
+          <h4>Delivery</h4>
+          <p>Products are delivered safely to your location on time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CTA ══════════════════════════════════════════════════ -->
+  <section>
+    <div class="container">
+      <div class="cta-banner">
+        <div class="label" style="margin-bottom:12px;">Ready to Start?</div>
+        <h2>Let's Build Something <span class="text-accent">Together</span></h2>
+        <p>Talk to our engineering team today and get a free consultation on your manufacturing needs.</p>
+        <a href="https://wa.me/916204499529" target="_blank" class="btn btn-primary btn-lg">
+          Chat on WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ═══════════════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-brand" style="margin-bottom:12px;">
+            <div class="brand-icon"><i class="fa-solid fa-industry"></i></div> Kushwaha and Sons
+              <p>Reliable manufacturer of bricks, paver blocks, and construction materials.</p>
+          </div>          
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="index.html">About Us</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Services</h5>
+          <ul>
+            <li><a href="#">CNC Machining</a></li>
+            <li><a href="#">Sheet Metal</a></li>
+            <li><a href="#">Fabrication</a></li>
+            <li><a href="#">Quality Testing</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <ul>
+            <li><a href="https://www.google.com/maps/dir/Banauli,+Bihar,+India/Prism+Cement+-+Pritam+Hardware,+Banauli,+Madhopur,+Bihar+847428/"
+                   target="_blank">
+                  Banauli, Darbhanga, Bihar - 847428
+                </a>
+              </li>
+            <li><a href="mailto:keshavsinghaniya98@gmail.com">keshavsinghaniya98@gmail.com
+                </a>
+              </li>
+            <li><a href="tel:+916204499529">+91 6204499529</a></li>
+            <li><a href="tel:+919608713419">Alternate: +91 9608713419</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2024 Kushwaha and Sons. All rights reserved.</span>
+        <span>Made in India <i class="fa-solid fa-flag" style="color:#FF9933; margin-left:4px;"></i></span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">
+    <span class="toast-icon" id="toastIcon"><i class="fa-solid fa-circle-check"></i></span>
+    <span class="toast-msg" id="toastMsg"></span>
+  </div>
+
+  <!-- Floating Buttons -->
+  <a href="tel:+916204499529" class="floating-btn call-btn">
+    <i class="fa-solid fa-phone"></i>
+  </a>
+
+  <a href="https://wa.me/916204499529" target="_blank" class="floating-btn whatsapp-btn">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <script src="js/main.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>

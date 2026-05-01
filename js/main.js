@@ -4,8 +4,11 @@
  */
 
 // ── API Base URL ─────────────────────────────────────────────────────────────
-// Connected to deployed backend on Render
-const API_BASE = 'https://kushwahaandsons.onrender.com/api';
+// For development: use localhost:5000
+// For production: use https://kushwahaandsons.onrender.com/api
+const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:5000/api'
+  : 'https://kushwahaandsons.onrender.com/api';
 
 // ── Toast Notification ───────────────────────────────────────────────────────
 function showToast(message, type = 'success') {

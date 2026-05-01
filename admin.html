@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Dashboard – VulcanFab</title>
+  <title>Admin Dashboard – Kushwaha and Sons</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     /* ── Admin-specific layout ──────────────────────────── */
     body { overflow-x: hidden; }
@@ -183,6 +184,35 @@
     }
     .bar:hover { opacity: 1; }
 
+    /* Charts */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .chart-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      position: relative;
+      min-height: 300px;
+    }
+    .chart-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .chart-wrap {
+      position: relative;
+      height: 250px;
+      width: 100%;
+    }
+
     /* Responsive sidebar */
     @media (max-width: 768px) {
       .sidebar { transform: translateX(-240px); transition: transform 0.3s; }
@@ -203,11 +233,11 @@
       </div>
       <div class="form-group">
         <label for="loginUser">Username</label>
-        <input type="text" id="loginUser" class="form-control" placeholder="admin" value="admin" />
+        <input type="text" id="loginUser" class="form-control" placeholder="admin" />
       </div>
       <div class="form-group">
         <label for="loginPass">Password</label>
-        <input type="password" id="loginPass" class="form-control" placeholder="••••••••" value="factory@2024" />
+        <input type="password" id="loginPass" class="form-control" placeholder="••••••••" />
       </div>
       <div id="loginError" style="color:var(--red); font-size:0.85rem; margin-bottom:12px; display:none;"></div>
       <button class="btn btn-primary" style="width:100%;" id="loginBtn" onclick="doLogin()">
@@ -283,6 +313,40 @@
             <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-boxes-stacked"></i></div><div class="stat-info"><div class="stat-val" id="statOrders">—</div><div class="stat-label">Total Orders</div></div></div>
             <div class="stat-card"><div class="stat-icon blue"><i class="fa-solid fa-users"></i></div><div class="stat-info"><div class="stat-val" id="statClients">—</div><div class="stat-label">Clients</div></div></div>
             <div class="stat-card"><div class="stat-icon purple"><i class="fa-solid fa-user-tie"></i></div><div class="stat-info"><div class="stat-val" id="statEmployees">—</div><div class="stat-label">Employees</div></div></div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; flex-wrap:wrap;">
+            <!-- Revenue Trend Chart -->
+            <div class="chart-container">
+              <div class="chart-title"><i class="fa-solid fa-chart-line" style="color:var(--accent);"></i> Revenue Trend</div>
+              <div class="chart-wrap">
+                <canvas id="revenueChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Order Status Distribution Chart -->
+            <div class="chart-container">
+              <div class="chart-title"><i class="fa-solid fa-pie-chart" style="color:var(--accent);"></i> Order Status</div>
+              <div class="chart-wrap">
+                <canvas id="orderStatusChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Top Products Chart -->
+            <div class="chart-container">
+              <div class="chart-title"><i class="fa-solid fa-chart-bar" style="color:var(--accent);"></i> Top Products</div>
+              <div class="chart-wrap">
+                <canvas id="topProductsChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Department Distribution Chart -->
+            <div class="chart-container">
+              <div class="chart-title"><i class="fa-solid fa-users" style="color:var(--accent);"></i> Team by Department</div>
+              <div class="chart-wrap">
+                <canvas id="departmentChart"></canvas>
+              </div>
+            </div>
           </div>
 
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; flex-wrap:wrap;">
@@ -539,6 +603,14 @@
         <div class="form-group"><label>Min Order Qty</label><input type="number" id="pMoq" class="form-control" /></div>
       </div>
       <div class="form-group"><label>Description</label><textarea id="pDesc" class="form-control" rows="3"></textarea></div>
+      <div class="form-group">
+        <label>Product Image URL</label>
+        <input type="text" id="pImageUrl" class="form-control" placeholder="https://example.com/image.jpg" />
+        <small style="color:var(--text-muted); margin-top:4px; display:block;">Paste a direct link to your product image. Use Imgur, Cloudinary, or your own server.</small>
+        <div id="imagePreview" style="margin-top:10px; display:none;">
+          <img id="previewImg" style="max-width:100%; max-height:150px; border-radius:var(--radius); border:1px solid var(--border);" />
+        </div>
+      </div>
       <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
         <button class="btn btn-outline" onclick="closeModal('productModal')">Cancel</button>
         <button class="btn btn-primary" onclick="saveProduct()">Save Product</button>

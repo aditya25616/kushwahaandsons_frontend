@@ -138,6 +138,25 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
   });
 });
 
+// ── Product Image Preview ──────────────────────────────────────────────────────
+const imageUrlInput = document.getElementById('pImageUrl');
+if (imageUrlInput) {
+  imageUrlInput.addEventListener('input', () => {
+    const url = imageUrlInput.value.trim();
+    const preview = document.getElementById('imagePreview');
+    const previewImg = document.getElementById('previewImg');
+    if (url) {
+      previewImg.src = url;
+      preview.style.display = 'block';
+      previewImg.onerror = () => {
+        preview.style.display = 'none';
+      };
+    } else {
+      preview.style.display = 'none';
+    }
+  });
+}
+
 // ── Auth Header ───────────────────────────────────────────────────────────────
 function authHeader() {
   return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` };
@@ -177,10 +196,237 @@ async function loadDashboard() {
         <td class="text-muted">${formatDate(o.createdAt)}</td>
       </tr>
     `).join('');
+
+    // Initialize charts
+    initializeCharts(data);
   } catch (err) {
     console.error('Dashboard load failed:', err);
   }
 }
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CHARTS
+// ══════════════════════════════════════════════════════════════════════════════
+let chartInstances = {};
+
+async function initializeCharts(statsData) {
+  // Destroy existing charts
+  Object.values(chartInstances).forEach(chart => {
+    if (chart && typeof chart.destroy === 'function') {
+      chart.destroy();
+    }
+  });
+  chartInstances = {};
+
+  try {
+    // Revenue Trend Chart (Line Chart)
+    const revenueCtx = document.getElementById('revenueChart');
+    if (revenueCtx) {
+      const last7Days = getLast7Days();
+      const revenueData = await fetchRevenueByDate(last7Days);
+      
+      chartInstances.revenue = new Chart(revenueCtx, {
+        type: 'line',
+        data: {
+          labels: last7Days.map(d => d.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })),
+          datasets: [{
+            label: 'Daily Revenue',
+            data: revenueData,
+            borderColor: '#6366f1',
+            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: '#6366f1',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 7
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, ticks: { callback: v => '₹' + v.toLocaleString() } }
+          }
+        }
+      });
+    }
+
+    // Order Status Distribution (Pie Chart)
+    const statusCtx = document.getElementById('orderStatusChart');
+    if (statusCtx) {
+      const statusData = await fetchOrderStatusDistribution();
+      
+      chartInstances.status = new Chart(statusCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Pending', 'Confirmed', 'In Production', 'Shipped', 'Delivered', 'Cancelled'],
+          datasets: [{
+            data: [
+              statusData.pending || 0,
+              statusData.confirmed || 0,
+              statusData['in-production'] || 0,
+              statusData.shipped || 0,
+              statusData.delivered || 0,
+              statusData.cancelled || 0
+            ],
+            backgroundColor: [
+              '#f59e0b', // amber
+              '#3b82f6', // blue
+              '#a855f7', // purple
+              '#06b6d4', // cyan
+              '#10b981', // green
+              '#ef4444'  // red
+            ],
+            borderWidth: 2,
+            borderColor: 'var(--bg-card)'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+
+    // Top Products (Bar Chart)
+    const productsCtx = document.getElementById('topProductsChart');
+    if (productsCtx) {
+      const topProducts = await fetchTopProducts();
+      
+      chartInstances.products = new Chart(productsCtx, {
+        type: 'bar',
+        data: {
+          labels: topProducts.map(p => p.name),
+          datasets: [{
+            label: 'Units Sold',
+            data: topProducts.map(p => p.totalQty),
+            backgroundColor: '#6366f1',
+            borderRadius: 6,
+            borderSkipped: false
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { x: { beginAtZero: true } }
+        }
+      });
+    }
+
+    // Department Distribution (Doughnut Chart)
+    const deptCtx = document.getElementById('departmentChart');
+    if (deptCtx) {
+      const deptData = await fetchDepartmentDistribution();
+      const depts = Object.keys(deptData);
+      const counts = Object.values(deptData);
+      const colors = {
+        production: '#3b82f6',
+        quality: '#10b981',
+        logistics: '#a855f7',
+        admin: '#f59e0b',
+        maintenance: '#ef4444',
+        sales: '#06b6d4'
+      };
+      
+      chartInstances.dept = new Chart(deptCtx, {
+        type: 'doughnut',
+        data: {
+          labels: depts.map(d => d.charAt(0).toUpperCase() + d.slice(1)),
+          datasets: [{
+            data: counts,
+            backgroundColor: depts.map(d => colors[d] || '#999'),
+            borderWidth: 2,
+            borderColor: 'var(--bg-card)'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+  } catch (err) {
+    console.error('Chart initialization error:', err);
+  }
+}
+
+// Chart Data Fetchers
+function getLast7Days() {
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    d.setHours(0, 0, 0, 0);
+    days.push(d);
+  }
+  return days;
+}
+
+async function fetchRevenueByDate(dateRange) {
+  try {
+    const from = dateRange[0].toISOString().split('T')[0];
+    const to = dateRange[6].toISOString().split('T')[0];
+    const res = await fetch(`${API_BASE}/stats/revenue?from=${from}&to=${to}`, { headers: authHeader() });
+    const data = await res.json();
+    
+    // Map data to date range
+    const revenueMap = {};
+    if (data.daily) {
+      data.daily.forEach(item => {
+        revenueMap[item.date] = item.total || 0;
+      });
+    }
+    
+    return dateRange.map(d => {
+      const dateStr = d.toISOString().split('T')[0];
+      return revenueMap[dateStr] || 0;
+    });
+  } catch {
+    return new Array(7).fill(0);
+  }
+}
+
+async function fetchOrderStatusDistribution() {
+  try {
+    const res = await fetch(`${API_BASE}/stats/order-status`, { headers: authHeader() });
+    return await res.json();
+  } catch {
+    return { pending: 0, confirmed: 0, 'in-production': 0, shipped: 0, delivered: 0, cancelled: 0 };
+  }
+}
+
+async function fetchTopProducts() {
+  try {
+    const res = await fetch(`${API_BASE}/stats/top-products?limit=5`, { headers: authHeader() });
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+async function fetchDepartmentDistribution() {
+  try {
+    const res = await fetch(`${API_BASE}/stats/departments`, { headers: authHeader() });
+    return await res.json();
+  } catch {
+    return { production: 0, quality: 0, logistics: 0, admin: 0, maintenance: 0, sales: 0 };
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
 
 // ══════════════════════════════════════════════════════════════════════════════
 // CLIENTS
@@ -542,6 +788,7 @@ function editProduct(id) {
 
 async function saveProduct() {
   const id = document.getElementById('productId').value;
+  const imageUrl = document.getElementById('pImageUrl').value.trim();
   const body = {
     name: document.getElementById('pName').value.trim(),
     category: document.getElementById('pCategory').value.trim(),
@@ -549,7 +796,8 @@ async function saveProduct() {
     unit: document.getElementById('pUnit').value.trim() || 'piece',
     stock: Number(document.getElementById('pStock').value) || 0,
     minOrderQty: Number(document.getElementById('pMoq').value) || 1,
-    description: document.getElementById('pDesc').value.trim()
+    description: document.getElementById('pDesc').value.trim(),
+    images: imageUrl ? [imageUrl] : []
   };
   if (!body.name || !body.price) { showToast('Name and price are required.', 'error'); return; }
 
@@ -562,7 +810,8 @@ async function saveProduct() {
       closeModal('productModal');
       document.getElementById('productId').value = '';
       document.getElementById('productModalTitle').textContent = 'Add Product';
-      ['pName', 'pCategory', 'pPrice', 'pUnit', 'pStock', 'pMoq', 'pDesc'].forEach(f => document.getElementById(f).value = '');
+      ['pName', 'pCategory', 'pPrice', 'pUnit', 'pStock', 'pMoq', 'pDesc', 'pImageUrl'].forEach(f => document.getElementById(f).value = '');
+      document.getElementById('imagePreview').style.display = 'none';
       loadProducts();
     } else {
       const d = await res.json();

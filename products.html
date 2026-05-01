@@ -21,12 +21,8 @@
       <a href="products.html" class="active">Products</a>
       <a href="contact.html">Contact</a>
     </div>
-    <div class="nav-cta">
-      <a href="https://wa.me/916204499529" target="_blank" class="btn btn-primary btn-sm">
-        WhatsApp Us
-      </a>
-      <button class="nav-toggle" id="navToggle"><i class="fa-solid fa-bars"></i></button>
-    </div>
+    <a href="admin.html" class="btn btn-primary btn-sm nav-admin"><i class="fa-solid fa-lock" style="margin-right: 6px;"></i>Admin</a>
+    <button class="nav-toggle" id="navToggle"><i class="fa-solid fa-bars"></i></button>
   </nav>
 
   <!-- PAGE HEADER -->
@@ -42,6 +38,17 @@
   <!-- MAIN CONTENT -->
   <section>
     <div class="container">      
+
+      <!-- Search & Filter Bar -->
+      <div style="display:flex; gap:12px; margin-bottom:24px; flex-wrap:wrap; align-items:center;">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search products by name..." style="flex:1; min-width:200px;" />
+        <select id="categoryFilter" class="form-control" style="min-width:150px;">
+          <option value="">All Categories</option>
+        </select>
+        <div style="font-size:0.9rem; color:var(--text-muted);">
+          <span id="productCount">0 products</span>
+        </div>
+      </div>
 
       <!-- Product Grid -->
       <div class="products-grid" id="productsGrid">
@@ -130,9 +137,15 @@
           return;
         }
         const icons = { 'Fasteners':'<i class="fa-solid fa-bolt"></i>','Mechanical':'<i class="fa-solid fa-gear"></i>','Sealing':'<i class="fa-solid fa-circle"></i>','Metal Profiles':'<i class="fa-solid fa-building"></i>','Hydraulics':'<i class="fa-solid fa-droplet"></i>','Piping':'<i class="fa-solid fa-wrench"></i>' };
-        grid.innerHTML = list.map(p => `
+        grid.innerHTML = list.map(p => {
+          // Use product image if available, otherwise use category icon
+          const imageContent = (p.images && p.images.length > 0)
+            ? `<img src="${p.images[0]}" alt="${p.name}" style="width:100%; height:100%; object-fit:cover;">`
+            : `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#f0f0f0;">${icons[p.category] || '<i class="fa-solid fa-industry"></i>'}</div>`;
+          
+          return `
           <div class="product-card">
-            <div class="product-img">${icons[p.category] || '<i class="fa-solid fa-industry"></i>'}</div>
+            <div class="product-img">${imageContent}</div>
             <div class="product-body">
               <div class="product-category">${p.category || 'General'}</div>
               <div class="product-name">${p.name}</div>
@@ -151,21 +164,22 @@
               </div>
             </div>
           </div>
-        `).join('');
+        `;
+        }).join('');
       }
 
       // Live filter
       function filter() {
-        const q   = searchInput.value.toLowerCase();
-        const cat = catFilter.value;
+        const q   = searchInput ? searchInput.value.toLowerCase() : '';
+        const cat = catFilter ? catFilter.value : '';
         const filtered = allProducts.filter(p =>
           (!q   || p.name.toLowerCase().includes(q) || (p.description||'').toLowerCase().includes(q)) &&
           (!cat || p.category === cat)
         );
         renderProducts(filtered);
       }
-      searchInput.addEventListener('input', filter);
-      catFilter.addEventListener('change', filter);
+      if (searchInput) searchInput.addEventListener('input', filter);
+      if (catFilter) catFilter.addEventListener('change', filter);
     });
   </script>
   

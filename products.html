@@ -103,6 +103,14 @@
 </a>
   <script src="js/main.js"></script>
   <script>
+    // Global image error handler (same as main.js)
+    window.handleImageError = function(imgElement) {
+      if (imgElement.parentElement) {
+        const fallback = imgElement.dataset.fallback || '<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#f0f0f0;"><i class="fa-solid fa-image"></i></div>';
+        imgElement.parentElement.innerHTML = fallback;
+      }
+    };
+
     // Products page logic (extends main.js)
     document.addEventListener('DOMContentLoaded', async () => {
       const grid       = document.getElementById('productsGrid');
@@ -139,8 +147,22 @@
         const icons = { 'Fasteners':'<i class="fa-solid fa-bolt"></i>','Mechanical':'<i class="fa-solid fa-gear"></i>','Sealing':'<i class="fa-solid fa-circle"></i>','Metal Profiles':'<i class="fa-solid fa-building"></i>','Hydraulics':'<i class="fa-solid fa-droplet"></i>','Piping':'<i class="fa-solid fa-wrench"></i>' };
         grid.innerHTML = list.map(p => {
           // Use product image if available, otherwise use category icon
-          const imageContent = (p.images && p.images.length > 0)
-            ? `<img src="${p.images[0]}" alt="${p.name}" style="width:100%; height:100%; object-fit:cover;">`
+          const fallbackHtml = `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#f0f0f0;"><i class="fa-solid fa-image"></i></div>`;
+          
+          // Check if image has base64 data (new structure) or is a URL string (old structure)
+          let imageSrc = '';
+          if (p.images && p.images.length > 0) {
+            const img = p.images[0];
+            if (img.data) {
+              // New structure: base64 encoded image
+              imageSrc = `data:${img.mimetype};base64,${img.data}`;
+            } else if (typeof img === 'string') {
+              // Old structure: URL string
+              imageSrc = img;
+            }
+          }
+          const imageContent = imageSrc
+            ? `<img src="${imageSrc}" alt="${p.name}" style="width:100%; height:100%; object-fit:cover;" data-fallback="${fallbackHtml.replace(/"/g, '&quot;')}" onerror="handleImageError(this);">`
             : `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#f0f0f0;">${icons[p.category] || '<i class="fa-solid fa-industry"></i>'}</div>`;
           
           return `

@@ -3,6 +3,15 @@
  * Handles: API base URL, toast, navbar toggle, hero stats
  */
 
+// ── Image Error Handler ───────────────────────────────────────────────────────
+// Global function to handle broken image display
+window.handleImageError = function(imgElement) {
+  if (imgElement.parentElement) {
+    const fallback = imgElement.dataset.fallback || '<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#f0f0f0;"><i class="fa-solid fa-image"></i></div>';
+    imgElement.parentElement.innerHTML = fallback;
+  }
+};
+
 // ── API Base URL ─────────────────────────────────────────────────────────────
 // For development: use localhost:5000
 // For production: use https://kushwahaandsons.onrender.com/api
@@ -84,9 +93,30 @@ async function loadFeaturedProducts(grid) {
       return;
     }
 
-    grid.innerHTML = featured.map(p => `
+    grid.innerHTML = featured.map(p => {
+      const iconHtml = iconMap[p.category] || '<i class="fa-solid fa-industry"></i>';
+      const fallbackHtml = `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#f0f0f0;">${iconHtml}</div>`;
+      
+      // Check if image has base64 data (new structure) or is a URL string (old structure)
+      let imageSrc = '';
+      if (p.images && p.images.length > 0) {
+        const img = p.images[0];
+        if (img.data) {
+          // New structure: base64 encoded image
+          imageSrc = `data:${img.mimetype};base64,${img.data}`;
+        } else if (typeof img === 'string') {
+          // Old structure: URL string
+          imageSrc = img;
+        }
+      }
+      
+      const imageContent = imageSrc
+        ? `<img src="${imageSrc}" alt="${p.name}" style="width:100%; height:100%; object-fit:cover;" data-fallback="${fallbackHtml.replace(/"/g, '&quot;')}" onerror="handleImageError(this);">`
+        : fallbackHtml;
+      
+      return `
       <div class="product-card">
-        <div class="product-img">${iconMap[p.category] || '<i class="fa-solid fa-industry"></i>'}</div>
+        <div class="product-img">${imageContent}</div>
         <div class="product-body">
           <div class="product-category">${p.category || 'General'}</div>
           <div class="product-name">${p.name}</div>
@@ -100,7 +130,8 @@ async function loadFeaturedProducts(grid) {
           </div>
         </div>
       </div>
-    `).join('');
+    `;
+    }).join('');
   } catch {
     grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">
       <div class="empty-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>

@@ -783,41 +783,113 @@ function editProduct(id) {
   document.getElementById('pStock').value = p.stock;
   document.getElementById('pMoq').value = p.minOrderQty;
   document.getElementById('pDesc').value = p.description || '';
+  
+  // Clear file input and preview
+  document.getElementById('pImageFile').value = '';
+  document.getElementById('imagePreview').style.display = 'none';
+  
+  // Show existing image if available
+  if (p.images && p.images.length > 0) {
+    const img = p.images[0];
+    if (img.data) {
+      const imgEl = document.getElementById('previewImg');
+      const fileNameEl = document.getElementById('previewFileName');
+      imgEl.src = `data:${img.mimetype};base64,${img.data}`;
+      fileNameEl.textContent = img.filename;
+      document.getElementById('imagePreview').style.display = 'block';
+    }
+  }
+  
   openModal('productModal');
+}
+
+// Preview product image when file is selected
+function previewProductImage() {
+  const fileInput = document.getElementById('pImageFile');
+  const preview = document.getElementById('imagePreview');
+  const imgEl = document.getElementById('previewImg');
+  const fileNameEl = document.getElementById('previewFileName');
+  
+  if (fileInput.files && fileInput.files[0]) {
+    const file = fileInput.files[0];
+    
+    // Validate file size (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      showToast('File size must be less than 5MB', 'error');
+      fileInput.value = '';
+      return;
+    }
+    
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      showToast('Please select an image file', 'error');
+      fileInput.value = '';
+      return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      imgEl.src = e.target.result;
+      fileNameEl.textContent = file.name;
+      preview.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  }
 }
 
 async function saveProduct() {
   const id = document.getElementById('productId').value;
-  const imageUrl = document.getElementById('pImageUrl').value.trim();
-  const body = {
-    name: document.getElementById('pName').value.trim(),
-    category: document.getElementById('pCategory').value.trim(),
-    price: Number(document.getElementById('pPrice').value),
-    unit: document.getElementById('pUnit').value.trim() || 'piece',
-    stock: Number(document.getElementById('pStock').value) || 0,
-    minOrderQty: Number(document.getElementById('pMoq').value) || 1,
-    description: document.getElementById('pDesc').value.trim(),
-    images: imageUrl ? [imageUrl] : []
-  };
-  if (!body.name || !body.price) { showToast('Name and price are required.', 'error'); return; }
+  const fileInput = document.getElementById('pImageFile');
+  
+  const name = document.getElementById('pName').value.trim();
+  const price = Number(document.getElementById('pPrice').value);
+  
+  if (!name || !price) { 
+    showToast('Name and price are required.', 'error'); 
+    return; 
+  }
 
   try {
+    // Create FormData for file upload
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('category', document.getElementById('pCategory').value.trim());
+    formData.append('price', price);
+    formData.append('unit', document.getElementById('pUnit').value.trim() || 'piece');
+    formData.append('stock', Number(document.getElementById('pStock').value) || 0);
+    formData.append('minOrderQty', Number(document.getElementById('pMoq').value) || 1);
+    formData.append('description', document.getElementById('pDesc').value.trim());
+    
+    // Append file if selected
+    if (fileInput.files && fileInput.files[0]) {
+      formData.append('productImage', fileInput.files[0]);
+    }
+
     const url = id ? `${API_BASE}/products/${id}` : `${API_BASE}/products`;
     const method = id ? 'PUT' : 'POST';
-    const res = await fetch(url, { method, headers: authHeader(), body: JSON.stringify(body) });
+    
+    // For FormData, don't set Content-Type header - browser will set it automatically
+    const res = await fetch(url, { 
+      method, 
+      headers: { 'Authorization': `Bearer ${authToken}` },  // Only send auth header
+      body: formData 
+    });
+    
     if (res.ok) {
       showToast(id ? 'Product updated!' : 'Product added!', 'success');
       closeModal('productModal');
       document.getElementById('productId').value = '';
       document.getElementById('productModalTitle').textContent = 'Add Product';
-      ['pName', 'pCategory', 'pPrice', 'pUnit', 'pStock', 'pMoq', 'pDesc', 'pImageUrl'].forEach(f => document.getElementById(f).value = '');
+      ['pName', 'pCategory', 'pPrice', 'pUnit', 'pStock', 'pMoq', 'pDesc', 'pImageFile'].forEach(f => document.getElementById(f).value = '');
       document.getElementById('imagePreview').style.display = 'none';
       loadProducts();
     } else {
       const d = await res.json();
       showToast(d.message || 'Save failed.', 'error');
     }
-  } catch { showToast('Network error.', 'error'); }
+  } catch (err) { 
+    showToast('Network error: ' + err.message, 'error'); 
+  }
 }
 
 async function deleteProduct(id) {
